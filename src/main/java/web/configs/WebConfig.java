@@ -24,25 +24,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
-@PropertySource("classpath:db.properties")
-@EnableTransactionManagement
 @EnableWebMvc
 @ComponentScan("web")
 public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-    @Autowired
-    private Environment env;
-
-    @Autowired
-    private DataSource dataSource;
-
     public WebConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
-
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -70,45 +60,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
         resolver.setCharacterEncoding("UTF-8");
         resolver.setContentType("text/html; charset=UTF-8");
-    }
-
-    /* Связываем БД с Hibernate, с помощью EntityManager
-    Возможно надо добавить файл iml!!*/
-
-    @Bean
-    public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("db.driver"));
-        dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUsername(env.getProperty("db.username"));
-        dataSource.setPassword(env.getProperty("db.password"));
-        return dataSource;
-    }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
-        entityManager.setDataSource(dataSource);
-        entityManager.setPackagesToScan("web.models"); // Пакеты, в которых находятся классы сущностей
-        entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManager.setJpaProperties(jpaProperties());
-
-        return entityManager;
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-        return transactionManager;
-    }
-
-    /*Нужна ли настройка пропертис, если у нас это все указано в db.properties*/
-    private Properties jpaProperties() {
-        Properties props = new Properties();
-        props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        props.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        return props;
     }
 
 }
