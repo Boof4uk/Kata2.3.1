@@ -4,19 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import web.models.User;
 import web.service.UserServiceImplementation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class UsersController {
 
+	private final UserServiceImplementation usil;
+
 	@Autowired
-	private UserServiceImplementation userServiceImplementation;
-
-
+	UsersController(UserServiceImplementation usil) {
+		this.usil = usil;
+	}
 
 	@GetMapping(value = "/")
 	public String printUsersTable(ModelMap model) {

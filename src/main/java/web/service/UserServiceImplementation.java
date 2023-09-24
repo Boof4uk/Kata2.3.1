@@ -3,17 +3,23 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDAOImplementation;
 import web.models.User;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImplementation implements UserService {
 
+    private final UserDAOImplementation userDAOImplementation;
 
     @Autowired
-    private UserDAOImplementation userDAOImplementation;
+    UserServiceImplementation(UserDAOImplementation userDAOImplementation) {
+        this.userDAOImplementation = userDAOImplementation;
+    }
+
 
     @Override
     public void addUser(String name, String surname) {

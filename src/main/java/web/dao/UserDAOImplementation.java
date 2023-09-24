@@ -9,21 +9,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Repository
+@Component
+@Transactional
 public class UserDAOImplementation implements UserDAO {
 
-    @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    UserDAOImplementation(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     @Override
-    @Transactional
     public void addUser(String name, String surname) {
         User user = new User(name, surname);
         entityManager.persist(user);
     }
 
     @Override
-    @Transactional
     public void deleteUser(int id) {
         User user = entityManager.find(User.class, id);
         if (user != null) {
@@ -32,7 +35,6 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     @Override
-    @Transactional
     public void updateUser(int id, String name, String surname) {
         User user = entityManager.find(User.class, id);
         if (user != null) {

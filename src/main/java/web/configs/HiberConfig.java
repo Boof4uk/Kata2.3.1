@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -25,8 +26,12 @@ import java.util.Properties;
 @ComponentScan("web")
 public class HiberConfig {
 
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public HiberConfig(Environment env) {
+        this.env = env;
+    }
 
      /* Связываем БД с Hibernate, с помощью EntityManager
     Возможно надо добавить файл iml!!*/
@@ -56,6 +61,11 @@ public class HiberConfig {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+        return new PersistenceExceptionTranslationPostProcessor();
     }
 
     /*Нужна ли настройка пропертис, если у нас это все указано в db.properties*/
