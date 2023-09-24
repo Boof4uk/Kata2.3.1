@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class UserDAOImplementation implements UserDAO {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     UserDAOImplementation(EntityManager entityManager) {
