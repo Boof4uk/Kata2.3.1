@@ -2,6 +2,7 @@ package web.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -12,28 +13,23 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 
 @Configuration
-
 @PropertySource("classpath:db.properties")
-
 @EnableTransactionManagement
-
+@ComponentScan("web")
 public class HiberConfig {
 
     @Autowired
     private Environment env;
 
-    @Autowired
-    private DataSource dataSource;
-
      /* Связываем БД с Hibernate, с помощью EntityManager
     Возможно надо добавить файл iml!!*/
-
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -47,7 +43,7 @@ public class HiberConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
-        entityManager.setDataSource(dataSource);
+        entityManager.setDataSource(getDataSource());
         entityManager.setPackagesToScan("web.models"); // Пакеты, в которых находятся классы сущностей
         entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManager.setJpaProperties(jpaProperties());
