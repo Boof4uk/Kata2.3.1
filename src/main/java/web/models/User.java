@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Table
 public class User {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,8 +21,7 @@ public class User {
 
     public User(){}
 
-    public User(int id, String name, String surname) {
-        this.id = id;
+    public User(String name, String surname) {
         this.name = name;
         this.surname = surname;
     }
