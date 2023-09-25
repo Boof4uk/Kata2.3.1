@@ -41,6 +41,8 @@ public class WebConfig implements WebMvcConfigurer {
         templateResolver.setPrefix("/WEB-INF/pages/");
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("UTF-8");
+        System.out.println("--------------------\n" + "Создан бин templateResolver");
+
         return templateResolver;
     }
 
@@ -49,6 +51,8 @@ public class WebConfig implements WebMvcConfigurer {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.setEnableSpringELCompiler(true);
+        System.out.println("--------------------\n" + "Создан бин templateEngine");
+
         return templateEngine;
     }
 
