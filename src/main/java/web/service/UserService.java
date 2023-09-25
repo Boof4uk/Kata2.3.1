@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface UserService {
 
-    public void addUser(String name, String surname);
+    public void addUser(User user);
     public void deleteUser(int id);
-    public void updateUser(int id, String name, String surname);
+    public void updateUser(User user);
     public List<User> getUserTable();
 
 }

@@ -15,8 +15,7 @@ public class UserDAOImplementation implements UserDAO {
     private EntityManager entityManager;
 
     @Override
-    public void addUser(String name, String surname) {
-        User user = new User(name, surname);
+    public void addUser(User user) {
         entityManager.persist(user);
     }
 
@@ -29,12 +28,8 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     @Override
-    public void updateUser(int id, String name, String surname) {
-        User user = entityManager.find(User.class, id);
-        if (user != null) {
-            user.setName(name);
-            user.setSurname(surname);
-        }
+    public void updateUser(User user) {
+        entityManager.merge(user);
     }
 
     public List<User> getUserTable() {

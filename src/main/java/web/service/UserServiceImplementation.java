@@ -21,8 +21,8 @@ public class UserServiceImplementation implements UserService {
 
 
     @Override
-    public void addUser(String name, String surname) {
-        userDao.addUser(name, surname);
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void updateUser(int id, String name, String surname) {
-        userDao.updateUser(id, name, surname);
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 
     public List<User> getUserTable() {
