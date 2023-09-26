@@ -9,18 +9,19 @@ import org.springframework.web.servlet.ModelAndView;
 import web.models.User;
 import web.service.UserService;
 import web.service.UserServiceImplementation;
-
 import java.util.List;
 
 @Controller
 public class UsersController {
 	private final UserService userService;
 
+	//Делаем инъекцию сервиса. Указываем интерфейс
 	@Autowired
 	public UsersController (UserService userService)
 	{this.userService = userService;}
 
-	@RequestMapping("/")
+
+	@GetMapping("/")
 	public ModelAndView home() {
 		List<User> users = userService.getUserTable();
 		ModelAndView mav = new ModelAndView("index");
@@ -41,7 +42,7 @@ public class UsersController {
 		return "redirect:/";
 	}
 
-	@RequestMapping("/{id}/edit")
+	@GetMapping("/{id}/edit")
 	public String editUser(Model model, @PathVariable("id") int id) {
 		model.addAttribute("user", userService.findUser(id));
 		return "/edit";
@@ -49,6 +50,7 @@ public class UsersController {
 
 	@PatchMapping("/{id}")
 	public String update(@ModelAttribute("user") User user) {
+		System.out.println("Обновлен");
 		userService.updateUser(user);
 		return "redirect:/";
 	}

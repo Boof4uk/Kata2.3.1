@@ -30,7 +30,6 @@ public class UserServiceImplementation implements UserService {
         userDao.deleteUser(id);
 
     }
-
     @Override
     public void updateUser(User user) {
         userDao.updateUser(user);
@@ -38,6 +37,11 @@ public class UserServiceImplementation implements UserService {
 
     public List<User> getUserTable() {
         return userDao.getUserTable();
+    }
+
+    @Override
+    public User findUser(int id) {
+        return userDao.findUser(id);
     }
 
 }

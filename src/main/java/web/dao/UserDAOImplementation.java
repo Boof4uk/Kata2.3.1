@@ -26,11 +26,16 @@ public class UserDAOImplementation implements UserDAO {
             entityManager.remove(user);
         }
     }
-
     @Override
     public void updateUser(User user) {
         entityManager.merge(user);
     }
+
+    public User findUser(int id) {
+        return entityManager.find(User.class, id);
+    }
+
+
 
     public List<User> getUserTable() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
