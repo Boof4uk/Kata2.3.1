@@ -15,11 +15,9 @@ import java.util.List;
 public class UsersController {
 	private final UserService userService;
 
-	//Делаем инъекцию сервиса. Указываем интерфейс
 	@Autowired
 	public UsersController (UserService userService)
 	{this.userService = userService;}
-
 
 	@GetMapping("/")
 	public ModelAndView home() {
@@ -31,13 +29,11 @@ public class UsersController {
 
 	@GetMapping("/new")
 	public String newUser(@ModelAttribute("user") User user) {
-		System.out.println("Редирект");
 		return "/new";
 	}
 
 	@PostMapping("/new")
 	public String create(@ModelAttribute("user") User user) {
-		System.out.println("Добавление");
 		userService.addUser(user);
 		return "redirect:/";
 	}
@@ -50,7 +46,6 @@ public class UsersController {
 
 	@PatchMapping("/{id}")
 	public String update(@ModelAttribute("user") User user) {
-		System.out.println("Обновлен");
 		userService.updateUser(user);
 		return "redirect:/";
 	}
